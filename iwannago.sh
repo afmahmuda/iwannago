@@ -2,7 +2,9 @@
 
 # Function to display usage information
 usage() {
-    echo "Usage: $0 <destination_name> [--map <mapfile.yaml>]"
+    echo "Usage:"
+    echo "  $0 <destination_name> [--map <mapfile.yaml>]"
+    echo "  $0 --list [--map <mapfile.yaml>]"
     exit 1
 }
 
@@ -19,12 +21,32 @@ while [[ $# -gt 0 ]]; do
             shift
             shift
             ;;
+        --list)
+            LIST=true
+            shift
+            ;;
         *)
             DESTINATION="$1"
             shift
             ;;
     esac
 done
+
+# Check if --list option is provided
+if [ "$LIST" = true ]; then
+    # Check if map file exists
+    if [ ! -f "$MAP_FILE" ]; then
+        echo "Error: Map file '$MAP_FILE' not found."
+        exit 1
+    fi
+
+    # Extract destination names from the map file
+    DESTINATIONS=$(grep "name:" "$MAP_FILE" | awk '{print $3}')
+
+    # Display destination names in vertical list
+    echo "$DESTINATIONS"
+    exit 0
+fi
 
 # Check if destination is provided
 if [ -z "$DESTINATION" ]; then
