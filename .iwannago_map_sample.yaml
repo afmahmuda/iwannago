@@ -1,0 +1,9 @@
+map:
+  - name: order_dev
+    address: my.oder-dev.ssh
+    user: deployer
+    identity_file: ~/.ssh/id_rsa_dev
+  - name: order_prod
+    address: my.oder.ssh
+    user: deployer
+    identity_file: ~/.ssh/id_rsa_prod
